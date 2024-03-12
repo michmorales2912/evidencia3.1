@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzería</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</head>
+<body>
+
+<h1>Bienvenido a la Pizzería</h1>
+
+<button onclick="mostrarMenu('Caja')">Caja</button>
+<button onclick="mostrarMenu('Meseros')">Meseros</button>
+<button onclick="mostrarMenu('Cocina')">Cocina</button>
+<button onclick="mostrarMenu('Menu')">Menú</button>
+
+</body>
+</html>

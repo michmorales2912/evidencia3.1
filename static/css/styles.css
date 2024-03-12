@@ -1,0 +1,25 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 20px;
+    background-color: #f7e3af; /* Color de fondo crema */
+}
+
+h1 {
+    color: #d65106; /* Color naranja oscuro para el título */
+}
+
+button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #ffaa6d; /* Color naranja claro para los botones */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #d65106; /* Cambio de color al pasar el mouse */
+}
