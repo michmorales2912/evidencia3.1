@@ -1,0 +1,25 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</head>
+<body>
+    <h1>Menú</h1>
+    <img src="{{ url_for('static', filename='img/menu.png') }}" alt="Pizza" width="400">
+    {% for categoria, items in menu.items() %}
+    <h2>{{ categoria }}</h2>
+    <ul>
+        {% for item in items %}
+            <li>{{ item.id }} {{ item.nombre }} - ${{ item.precio }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+    <a href="{{ url_for('index') }}">
+        <button>Regresar al Inicio</button>
+    </a>
+
+</body>
+</html>

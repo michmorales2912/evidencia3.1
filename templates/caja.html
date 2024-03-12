@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja - Sistema de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+<h1>Caja - Sistema de Pedidos</h1>
+
+<button onclick="sumar()">Imprimir Ticket</button>
+<br>
+<label for="elemento">Elemento a quitar:</label>
+<input type="text" id="elemento" name="elemento" placeholder="Ingrese el elemento">
+<button onclick="quitarElemento()">Quitar Elemento</button>
+
+<a href="{{ url_for('index') }}">
+    <button>Regresar al Inicio</button>
+</a>
+</body>
+</html>

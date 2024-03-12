@@ -11,10 +11,11 @@
 
 <h1>Bienvenido a la Pizzería</h1>
 
-<button onclick="mostrarMenu('Caja')">Caja</button>
-<button onclick="mostrarMenu('Meseros')">Meseros</button>
-<button onclick="mostrarMenu('Cocina')">Cocina</button>
-<button onclick="mostrarMenu('Menu')">Menú</button>
+
+<button onclick="window.location='{{url_for('caja')}}'" style="cursor: pointer;">Caja</button>
+<button onclick="window.location='{{url_for('meseros')}}'" style="cursor: pointer;">Meseros</button>
+<button onclick="window.location='{{url_for('cocina')}}'" style="cursor: pointer;">Cocina</button>
+<button onclick="window.location='{{url_for('mostrar_menu')}}'" style="cursor: pointer;">Menú</button>
 
 </body>
 </html>

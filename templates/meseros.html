@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meseros - Sistema de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+<h1>Meseros - Sistema de Pedidos</h1>
+
+<!-- Formulario para añadir una orden -->
+<form id="formAñadir">
+    <label for="numeroOrden">Número de Orden:</label>
+    <input type="text" id="numeroOrden" name="numeroOrden" required>
+    <br>
+    <label for="elementos">Elementos:</label>
+    <input type="text" id="elementos" name="elementos" required>
+    <br>
+    <button type="button" onclick="añadirOrden()">Añadir Orden</button>
+</form>
+
+
+<button type="button" onclick="consultarOrden()">Consultar Última Orden</button>
+
+<a href="{{ url_for('index') }}">
+    <button>Regresar al Inicio</button>
+</body>
+</html>
