@@ -38,36 +38,38 @@ function quitarElemento() {
 function añadirOrden() {
     var numeroOrden = document.getElementById("numeroOrden").value;
     var elementos = document.getElementById("elementos").value;
-
-    $.ajax({
-        type: "POST",
-        url: "/añadir_orden",  
-        data: { numeroOrden: numeroOrden, elementos: elementos },
-        success: function (response) {
-            alert(response.message);
+    console.log("Datos a enviar: ", numeroOrden, elementos)
+    fetch('/añadir_orden', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
-        error: function (error) {
-            alert("Error al añadir orden.");
-        }
+        body: 'numeroOrden=' + encodeURIComponent(numeroOrden) + '&elementos=' + encodeURIComponent(elementos),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);  
     });
 }
+
 
 function consultarOrden() {
-    $.ajax({
-        type: "GET",
-        url: "/consultar_orden",  
-        success: function (response) {
-            if (response) {
-                alert("Última orden consultada: " + JSON.stringify(response));
+    fetch('/consultar_orden')
+        .then(response => response.json())
+        .then(data => {
+            var resultadoConsulta = document.getElementById("resultadoConsulta");
+
+            if (data.numero_orden) {
+                resultadoConsulta.innerHTML = "Última Orden: Número " + data.numero_orden + ", Elementos: " + data.elementos;
             } else {
-                alert("No hay órdenes para consultar.");
+                resultadoConsulta.innerHTML = "No hay órdenes para consultar.";
             }
-        },
-        error: function (error) {
-            alert("Error al consultar orden.");
-        }
-    });
+        })
+        .catch(error => {
+            console.error('Error al consultar la orden:', error);
+        });
 }
+
 
 //Cocina
 function consultarOrdenCocina() {

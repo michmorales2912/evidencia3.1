@@ -5,26 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meseros - Sistema de Pedidos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/static/js/script.js"></script>
+  
 </head>
 <body>
 
 <h1>Meseros - Sistema de Pedidos</h1>
 
-<!-- Formulario para añadir una orden -->
+
 <form id="formAñadir">
     <label for="numeroOrden">Número de Orden:</label>
     <input type="text" id="numeroOrden" name="numeroOrden" required>
     <br>
     <label for="elementos">Elementos:</label>
-    <input type="text" id="elementos" name="elementos" required>
+    <select id="elementos" name="elementos" required>
+        <option value="Pizza Especial">Pizza Especial</option>
+        <option value="Pizza Campesina">Pizza Campesina</option>
+        <option value="Pizza Pancho Villa">Pizza Pancho Villa</option>
+        <option value="Pizza norteña">Pizza norteña</option>
+        <option value="Pizza chicken buffalo">Pizza chicken buffalo</option>
+        <option value="Spaguetti de la casa">Spaguetti de la casa</option>
+        <option value="Spaguetti con crema">Spaguetti con crema</option>
+        <option value="Spaguetti chorizo">Spaguetti chorizo</option>
+        <option value="Spaguetti Boloñes">Spaguetti Boloñes</option>
+        <option value="Boneless Naturales">Boneless Naturales</option>
+        <option value="Boneless buffalo">Boneless buffalo</option>
+        <option value="Boneless Mango Habanero">Boneless Mango Habanero</option>
+        <option value="Boneless BBQ">Boneless BBQ</option>
+        <option value="Papas fritas chicas">Papas fritas chicas</option>
+        <option value="Papas fritas grandes">Papas fritas grandes</option>
+        <option value="Ensalada chica">Ensalada chica</option>
+        <option value="Ensalada grande">Ensalada grande</option>
+        <option value="Agua Natural">Agua Natural</option>
+        <option value="Coca Cola">Coca Cola</option>
+        <option value="Fanta">Fanta</option>
+        <option value="Uva">Uva</option>
+        <option value="Fresa">Fresa</option>
+        <option value="Naranja">Naranja</option>
+        <option value="Manzanita">Manzanita</option>
+    </select>
     <br>
     <button type="button" onclick="añadirOrden()">Añadir Orden</button>
 </form>
 
 
 <button type="button" onclick="consultarOrden()">Consultar Última Orden</button>
+<div id="resultado"></div>
 
 <a href="{{ url_for('index') }}">
     <button>Regresar al Inicio</button>

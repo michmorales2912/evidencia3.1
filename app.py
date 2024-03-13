@@ -5,9 +5,14 @@ from pedidos import SistemaPedidos
 from meseros import Meseros 
 from cocina import Cocina
 from menu import Menu
+
+
+
 app = Flask(__name__, template_folder='templates', static_folder='static')
+
 app.secret_key = os.urandom(24)
 menu_restaurante = Menu()
+
 
 # Index
 @app.route('/')
@@ -54,7 +59,10 @@ def meseros():
 def añadir_orden():
     numero_orden = request.form.get('numeroOrden')
     elementos = request.form.get('elementos')
-    meseros.añadir(numero_orden, elementos) 
+    sistema_pedidos = SistemaPedidos()
+    meseros_instance = Meseros(sistema_pedidos)
+    meseros_instance.añadir(numero_orden, elementos) 
+
     return jsonify({"message": f"Orden añadida con éxito. Número de orden: {numero_orden}"})
 @app.route('/consultar_orden', methods=['GET'])
 def consultar_orden():
@@ -63,7 +71,7 @@ def consultar_orden():
         return jsonify({"numero_orden": ultima_orden['numero_orden'], "elementos": ultima_orden['elementos']})
     else:
         return jsonify({"message": "No hay órdenes para consultar."})
-    
+
 # Cocina
 @app.route('/cocina')
 def cocina():
@@ -72,22 +80,21 @@ def cocina():
     return render_template('cocina.html', cocina_instance=cocina_instance)
 @app.route('/consultar_orden_cocina', methods=['GET'])
 def consultar_orden_cocina():
-    # Invoca el método consultar en la instancia de la clase Cocina
-    ultima_orden = cocina.consultar()
+    sistema_pedidos = SistemaPedidos()
+    cocina_instance = Cocina(sistema_pedidos)
+    ultima_orden = cocina_instance.consultar()
 
-    # Puedes ajustar la respuesta según tu lógica
     if ultima_orden:
         return jsonify({"numero_orden": ultima_orden['numero_orden'], "elementos": ultima_orden['elementos']})
     else:
         return jsonify({"message": "No hay órdenes en la cocina."})
 
-# Ruta para eliminar la última orden en cocina (método POST)
 @app.route('/eliminar_orden_cocina', methods=['POST'])
 def eliminar_orden_cocina():
-    # Invoca el método eliminar_orden en la instancia de la clase Cocina
-    cocina.eliminar_orden()
+    sistema_pedidos = SistemaPedidos()
+    cocina_instance = Cocina(sistema_pedidos)
+    cocina_instance.eliminar_orden()
 
-    # Puedes ajustar la respuesta según tu lógica
     return jsonify({"message": "Orden eliminada en la cocina."})
 
 #Menu

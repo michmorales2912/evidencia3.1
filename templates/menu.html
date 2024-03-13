@@ -4,16 +4,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/static/js/script.js"></script>
 </head>
 <body>
-    <h1>Menú</h1>
-    <img src="{{ url_for('static', filename='img/menu.png') }}" alt="Pizza" width="400">
+    
+    <img src="{{ url_for('static', filename='img/menu.png') }}" alt="Menu" width="400">
     {% for categoria, items in menu.items() %}
     <h2>{{ categoria }}</h2>
     <ul>
         {% for item in items %}
-            <li>{{ item.id }} {{ item.nombre }} - ${{ item.precio }}</li>
+            {{ item.id }} {{ item.nombre }} - ${{ item.precio }}
+            <br>
         {% endfor %}
     </ul>
 {% endfor %}
