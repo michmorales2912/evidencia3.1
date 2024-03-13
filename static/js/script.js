@@ -54,20 +54,23 @@ function añadirOrden() {
 
 
 function consultarOrden() {
-    fetch('/consultar_orden')
-        .then(response => response.json())
-        .then(data => {
-            var resultadoConsulta = document.getElementById("resultadoConsulta");
-
-            if (data.numero_orden) {
-                resultadoConsulta.innerHTML = "Última Orden: Número " + data.numero_orden + ", Elementos: " + data.elementos;
-            } else {
-                resultadoConsulta.innerHTML = "No hay órdenes para consultar.";
-            }
-        })
-        .catch(error => {
-            console.error('Error al consultar la orden:', error);
-        });
+    fetch('/consultar_orden', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.ultima_orden) {
+            alert("Última orden: " + JSON.stringify(data.ultima_orden));
+        } else {
+            console.error("Error al consultar la orden: Datos incorrectos recibidos");
+        }
+    })
+    .catch(error => {
+        console.error("Error al consultar la orden:", error);
+    });
 }
 
 

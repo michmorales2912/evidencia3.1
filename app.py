@@ -12,6 +12,8 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.secret_key = os.urandom(24)
 menu_restaurante = Menu()
+sistema_pedidos = SistemaPedidos()
+meseros_instance = Meseros(SistemaPedidos)
 
 
 # Index
@@ -55,22 +57,33 @@ def meseros():
     sistema_pedidos = SistemaPedidos()
     meseros_instance = Meseros(sistema_pedidos)
     return render_template('meseros.html', meseros_instance=meseros_instance)
+
 @app.route('/añadir_orden', methods=['POST'])
 def añadir_orden():
-    numero_orden = request.form.get('numeroOrden')
-    elementos = request.form.get('elementos')
-    sistema_pedidos = SistemaPedidos()
-    meseros_instance = Meseros(sistema_pedidos)
-    meseros_instance.añadir(numero_orden, elementos) 
+    try:
+        numero_orden = request.form.get('numeroOrden')
+        elementos = request.form.get('elementos')
+        sistema_pedidos = SistemaPedidos()
+        meseros_instance = Meseros(sistema_pedidos)
+        meseros_instance.añadir(numero_orden, elementos)
 
-    return jsonify({"message": f"Orden añadida con éxito. Número de orden: {numero_orden}"})
+        return jsonify({"message": "Orden añadida correctamente"})
+    except Exception as e:
+        print(f"Error en añadir_orden: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+    
 @app.route('/consultar_orden', methods=['GET'])
 def consultar_orden():
-    ultima_orden = meseros.consultar()
-    if ultima_orden:
-        return jsonify({"numero_orden": ultima_orden['numero_orden'], "elementos": ultima_orden['elementos']})
-    else:
-        return jsonify({"message": "No hay órdenes para consultar."})
+    try:
+        ultima_orden = meseros.consultar()
+        
+        if ultima_orden is not None:
+            return jsonify({"message": "Consulta exitosa", "ultima_orden": ultima_orden})
+        else:
+            return jsonify({"message": "No hay órdenes para consultar"})
+    except Exception as e:
+        print(f"Error en consultar_orden: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 # Cocina
 @app.route('/cocina')
