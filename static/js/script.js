@@ -35,6 +35,7 @@ function quitarElemento() {
 }
 
 //Meseros
+
 function añadirOrden() {
     var numeroOrden = document.getElementById("numeroOrden").value;
     var elementos = document.getElementById("elementos").value;
@@ -52,26 +53,19 @@ function añadirOrden() {
     });
 }
 
-
 function consultarOrden() {
     fetch('/consultar_orden', {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
     })
     .then(response => response.json())
     .then(data => {
-        if (data && data.ultima_orden) {
-            alert("Última orden: " + JSON.stringify(data.ultima_orden));
-        } else {
-            console.error("Error al consultar la orden: Datos incorrectos recibidos");
-        }
+        console.log(data);
     })
-    .catch(error => {
-        console.error("Error al consultar la orden:", error);
+    .catch((error) => {
+        console.error('Error:', error);
     });
 }
+
 
 
 //Cocina

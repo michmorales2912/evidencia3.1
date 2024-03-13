@@ -14,6 +14,9 @@ app.secret_key = os.urandom(24)
 menu_restaurante = Menu()
 sistema_pedidos = SistemaPedidos()
 meseros_instance = Meseros(SistemaPedidos)
+meseros_instancia = Meseros(sistema_pedidos=None)
+ultima_orden = meseros_instancia.obtener_ultima_orden()
+
 
 
 # Index
@@ -71,18 +74,19 @@ def añadir_orden():
     except Exception as e:
         print(f"Error en añadir_orden: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
     
 @app.route('/consultar_orden', methods=['GET'])
 def consultar_orden():
     try:
-        ultima_orden = meseros.consultar()
+        ultima_orden = meseros_instance.consultar()  
         
         if ultima_orden is not None:
             return jsonify({"message": "Consulta exitosa", "ultima_orden": ultima_orden})
         else:
             return jsonify({"message": "No hay órdenes para consultar"})
     except Exception as e:
-        print(f"Error en consultar_orden: {str(e)}")
+        print(f"Error en consultar_orden_meseros: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 # Cocina
