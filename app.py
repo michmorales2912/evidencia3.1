@@ -1,142 +1,165 @@
-from flask import Flask, render_template, request, redirect, session, jsonify
-import os
-from caja import Caja  
-from pedidos import SistemaPedidos  
-from meseros import Meseros 
-from cocina import Cocina
-from menu import Menu
+from flask import Flask, render_template, request, redirect
+from Menu import Menu
+from Pedidos import Pedidos
 
+app = Flask(__name__, static_url_path='/static')
+menu_instance = Menu()  
+pedidos_instance = Pedidos(menu_instance) 
 
-
-app = Flask(__name__, template_folder='templates', static_folder='static')
-
-app.secret_key = os.urandom(24)
-menu_restaurante = Menu()
-sistema_pedidos = SistemaPedidos()
-meseros_instance = Meseros(SistemaPedidos)
-meseros_instancia = Meseros(sistema_pedidos=None)
-ultima_orden = meseros_instancia.obtener_ultima_orden()
-
-
-
-# Index
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Caja
-@app.route('/caja')
-def caja():
-    sistema_pedidos = SistemaPedidos()
-    caja_instance = Caja(sistema_pedidos)
-    return render_template('caja.html', caja_instance=caja_instance)
+# Cajas
 
-@app.route('/sumar', methods=['POST'])
+@app.route('/Cajas')
+def cajas():
+    return render_template('Cajas.html')
+
+@app.route('/Sumar', methods=['GET', 'POST'])
 def sumar():
-    caja_instance = session.get('caja_instance')
+    if request.method == 'POST':
+        print("Form submitted!")  
+        index_pedido = int(request.form['pedido'])
+        order = pedidos_instance.ordenes[index_pedido]
+        total_pedido = sum(item[1] for item in order)
+        return render_template('Sumar.html', pedidos=pedidos_instance.ordenes, total_pedido=total_pedido)
+    else:
+        return render_template('Sumar.html', pedidos=pedidos_instance.ordenes)
 
-    if not caja_instance:
-        sistema_pedidos = SistemaPedidos()
-        caja_instance = Caja(sistema_pedidos)
-        session['caja_instance'] = caja_instance
 
-    mensaje = caja_instance.sumar()
-    return jsonify({"message": mensaje})
-@app.route('/quitar_elemento', methods=['POST'])
-def quitar_elemento():
-    caja_instance = session.get('caja_instance')
 
-    if not caja_instance:
-        sistema_pedidos = SistemaPedidos()
-        caja_instance = Caja(sistema_pedidos)
-        session['caja_instance'] = caja_instance
-    elemento = request.form.get('elemento')
-    mensaje = caja_instance.quitar_elemento(elemento)
-    return jsonify({"message": mensaje})
+
+@app.route('/QuitarElementoPedido', methods=['GET', 'POST'])
+def quitar_elemento_pedido():
+    if request.method == 'POST':
+        index_pedido = int(request.form['pedido']) 
+        if index_pedido < len(pedidos_instance.ordenes):
+            if pedidos_instance.ordenes[index_pedido]:  
+                pedidos_instance.ordenes[index_pedido].pop()
+        return redirect('/Cajas') 
+    else:
+        return render_template('QuitarElementoPedido.html', pedidos=pedidos_instance.ordenes)
+
+
+  
 
 # Meseros
-@app.route('/meseros')
+
+@app.route('/Meseros')
 def meseros():
-    sistema_pedidos = SistemaPedidos()
-    meseros_instance = Meseros(sistema_pedidos)
-    return render_template('meseros.html', meseros_instance=meseros_instance)
+    menu_items = menu_instance.mostrar_menu()  
+    return render_template('Meseros.html', menu_items=menu_items)
 
-@app.route('/añadir_orden', methods=['POST'])
-def añadir_orden():
-    try:
-        numero_orden = request.form.get('numeroOrden')
-        elementos = request.form.get('elementos')
-        sistema_pedidos = SistemaPedidos()
-        meseros_instance = Meseros(sistema_pedidos)
-        meseros_instance.añadir(numero_orden, elementos)
-
-        return jsonify({"message": "Orden añadida correctamente"})
-    except Exception as e:
-        print(f"Error en añadir_orden: {str(e)}")
-        return jsonify({"error": str(e)}), 500
-
-    
-@app.route('/consultar_orden', methods=['GET'])
-def consultar_orden():
-    try:
-        ultima_orden = meseros_instance.consultar()  
-        
-        if ultima_orden is not None:
-            return jsonify({"message": "Consulta exitosa", "ultima_orden": ultima_orden})
-        else:
-            return jsonify({"message": "No hay órdenes para consultar"})
-    except Exception as e:
-        print(f"Error en consultar_orden_meseros: {str(e)}")
-        return jsonify({"error": str(e)}), 500
-
-# Cocina
-@app.route('/cocina')
-def cocina():
-    sistema_pedidos = SistemaPedidos()
-    cocina_instance = Cocina(sistema_pedidos)
-    return render_template('cocina.html', cocina_instance=cocina_instance)
-@app.route('/consultar_orden_cocina', methods=['GET'])
-def consultar_orden_cocina():
-    sistema_pedidos = SistemaPedidos()
-    cocina_instance = Cocina(sistema_pedidos)
-    ultima_orden = cocina_instance.consultar()
-
-    if ultima_orden:
-        return jsonify({"numero_orden": ultima_orden['numero_orden'], "elementos": ultima_orden['elementos']})
+@app.route('/NuevaOrden', methods=['GET', 'POST'])
+def nueva_orden():
+    if request.method == 'POST':
+        pedidos_instance.crear_nueva_orden()  
+        return redirect('/Meseros')
     else:
-        return jsonify({"message": "No hay órdenes en la cocina."})
+        return "Invalid request method"
 
-@app.route('/eliminar_orden_cocina', methods=['POST'])
-def eliminar_orden_cocina():
-    sistema_pedidos = SistemaPedidos()
-    cocina_instance = Cocina(sistema_pedidos)
-    cocina_instance.eliminar_orden()
+@app.route('/AgregarPedido', methods=['GET', 'POST'])
+def agregar_pedido():
+    if request.method == 'POST':
+        if len(pedidos_instance.ordenes) >=6:
+            return "No se pueden agregar más de 6 pedidos a la vez."
+        
+        item_numbers = request.form.getlist('item_numbers[]')
+        item_quantities = request.form.getlist('item_quantities[]')
 
-    return jsonify({"message": "Orden eliminada en la cocina."})
+        if not item_numbers:
+            return "No se proporcionaron ítems para agregar a la orden."
+
+        pedidos_instance.crear_nueva_orden()
+
+        for item_number, quantity in zip(item_numbers, item_quantities):
+            pedidos_instance.añadir(int(item_number), int(quantity))
+
+        return redirect('/Meseros')
+    else:
+        menu_items = menu_instance.mostrar_menu()
+        return render_template('AgregarPedido.html', menu_items=menu_items)
+
+
+
+
+
+
+@app.route('/ConsultarPedidos')
+def consultar_pedidos():
+    pedidos = pedidos_instance.consultar()
+    orders = []
+    for pedido in pedidos:
+        order = []
+        for item in pedido:
+            order.append({
+                'name': item[0],
+                'price': item[1]
+            })
+        orders.append(order)
+    return render_template('ConsultarPedidos.html', orders=orders)
+
+
+
+
+# Cosinas
+
+@app.route('/Cocinas')
+def cocinas():
+    return render_template('Cocinas.html')
+
+
+@app.route('/Eliminar')
+def eliminar():
+    pedidos = pedidos_instance.consultar()
+    
+    if pedidos:
+        primer_pedido = pedidos[0]
+        pedidos_instance.eliminar_orden(0)
+        mensaje = f"Se eliminó el siguiente pedido: {primer_pedido}"
+    else:
+        mensaje = "No hay pedidos para eliminar en este momento."
+    
+    return render_template('Eliminar.html', mensaje=mensaje)
+
 
 #Menu
-def obtener_menu():
-    menu_restaurante = Menu()
-    menu_data = {
-        'Pizzas': menu_restaurante.pizzas,
-        'Boneless': menu_restaurante.boneless,
-        'Spaggetti': menu_restaurante.spaggetti,
-        'Papas fritas': menu_restaurante.papas_fritas,
-        'Ensaladas': menu_restaurante.ensaladas,
-        'Bebidas': menu_restaurante.bebidas,
-    }
-    return menu_data
-@app.route('/menu')
-def mostrar_menu():
-    menu = {
-        "Pizzas": menu_restaurante.pizzas,
-        "Boneless": menu_restaurante.boneless,
-        "Spaggetti": menu_restaurante.spaggetti,
-        "Papas fritas": menu_restaurante.papas_fritas,
-        "Ensaladas": menu_restaurante.ensaladas,
-        "Bebidas": menu_restaurante.bebidas
-    }
 
-    return render_template('menu.html', menu=menu)
+@app.route('/Menu')
+def menu():
+    return render_template('Menu.html')
+
+@app.route('/MenuView')
+def view_menu():
+    menu_items = menu_instance.mostrar_menu()
+    return render_template('MenuView.html', menu_items=menu_items)
+
+@app.route('/AgregarMenu')
+def agregar_menu():
+    return render_template('AgregarMenu.html')
+
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    if request.method == 'POST':
+        item_name = request.form['item_name']
+        item_price = request.form['item_price']
+        if item_name and item_price:
+            menu_instance.agregar_item(item_name, int(item_price))
+    return redirect('/MenuView')
+
+@app.route('/EliminarMenu')
+def eiminarmenu():
+    return render_template('EliminarMenu.html')
+
+@app.route('/eliminar_item', methods=['POST'])
+def eliminar_item():
+    if request.method == 'POST':
+        item_number = int(request.form['item_number'])
+        menu_instance.eliminar_item(item_number)
+        return redirect('/EliminarMenu')
+    else:
+        return "Invalid request method"
+
 if __name__ == '__main__':
     app.run(debug=True)

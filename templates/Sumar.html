@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+<body>
+    <h1>Total del Pedido</h1>
+    <div class="sumar-container">
+        <form action="/Sumar" method="POST">
+            <label for="pedido">Selecciona:</label>
+            <select name="pedido" id="pedido">
+                {% if pedidos|length > 0 %}
+                    {% for index in range(pedidos|length) %}
+                        <option value="{{ index }}">{{ pedidos[index] }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="" disabled>No hay pedidos</option>
+                {% endif %}
+            </select>
+            <input type="submit" value="Total">
+        </form>
+        {% if total_pedido is not none %}
+            <p>Total a pagar: ${{ total_pedido }}</p>
+        {% endif %}
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/Cajas">Regresar</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

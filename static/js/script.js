@@ -53,31 +53,6 @@ function añadirOrden() {
     });
 }
 
-function consultarOrden() {
-    fetch('/consultar_orden', {
-        method: 'GET',
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.statusText}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Respuesta del servidor:', data);
-
-        if (data.message === 'Consulta exitosa') {
-        
-            const ultimaOrden = data.ultima_orden;
-            console.log('Última orden:', ultimaOrden);
-        } else {
-            console.log('No hay órdenes para consultar');
-        }
-    })
-    .catch(error => {
-        console.error('Error en la solicitud:', error);
-    });
-}
 
 
 

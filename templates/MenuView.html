@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> <!-- Link to your styles.css file -->
+</head>
+<style>
+    .menu-items {
+            text-align: center;
+            font-family: Arial, sans-serif; 
+        }
+</style>
+<body>
+  
+    
+        <img src="{{ url_for('static', filename='img/menu.png') }}" alt="Caja" width="400">
+
+   
+    <div class="menu-items">
+        <ul>
+            {% for item_num, (item_name, item_price) in menu_items.items() %}
+                <br>
+                <span>{{ item_num }}:</span> {{ item_name }} - ${{ item_price }}
+            {% endfor %}
+        </ul>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/">Regresar al inicio</a></li>
+        </ul>
+    </nav>
+    
+</body>
+</html>

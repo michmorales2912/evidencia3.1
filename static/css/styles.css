@@ -2,18 +2,18 @@ body {
     font-family: 'Arial', sans-serif;
     text-align: center;
     margin: 20px;
-    background-color: #f7e3af; /* Color de fondo crema */
+    background-color: #f7e3af; 
 }
 
 h1 {
-    color: #d65106; /* Color naranja oscuro para el título */
+    color: #d65106; 
 }
 
 button {
     font-size: 16px;
     padding: 10px 20px;
     margin: 10px;
-    background-color: #ffaa6d; /* Color naranja claro para los botones */
+    background-color: #ffaa6d; 
     border: none;
     color: white;
     cursor: pointer;
@@ -21,5 +21,180 @@ button {
 }
 
 button:hover {
-    background-color: #d65106; /* Cambio de color al pasar el mouse */
+    background-color: #d65106; 
+}
+.center-image {
+    text-align: center;
+    margin-top: 20px;
+} 
+
+
+nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    margin-right: 30px;
+}
+
+nav a {
+    color: #a9201d;
+    text-decoration: none;
+    padding: 15px 30px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background-color: #fab703;
+    display: inline-block;
+}
+
+nav a:hover {
+    background-color: #632727;
+    color: white;
+    border-color: #632727;
+}
+
+.add-menu-item {
+    text-align: center; 
+    font-family: Arial, sans-serif; 
+    margin-top: 30px;
+}
+
+.add-menu-item form {
+    margin-top: 20px;
+}
+
+
+
+.add-menu-item input[type="submit"] {
+    background-color: #d65106; /* Nuevo color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-menu-item input[type="submit"]:hover {
+    background-color: #ffaa6d; /* Nuevo color */
+}
+
+.pedido-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.pedido-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.pedido-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.pedido-container input[type="number"] {
+    width: 50px;
+}
+
+.pedido-container input[type="submit"] {
+    background-color: #d65106;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pedido-container input[type="submit"]:hover {
+    background-color: #ffaa6d;
+}
+
+
+
+.sumar-container {
+    background-color: #ffaa6d;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+.sumar-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.sumar-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.sumar-container input[type="submit"] {
+    background-color: #d65106;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.sumar-container input[type="submit"]:hover {
+    background-color: #d65106;
+}
+
+
+
+
+.quitar-elemento-container {
+    background-color: #ffaa6d;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+.quitar-elemento-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.quitar-elemento-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.quitar-elemento-container input[type="submit"] {
+    background-color: #d65106;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.quitar-elemento-container input[type="submit"]:hover {
+    background-color: #ffaa6d;
 }

@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>Menu Principal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Menu</h1>
-    </header>
+   <h1>Caja - Sistema de Pedidos</h1>
+   <img src="{{ url_for('static', filename='img/cashier.png') }}" alt="Caja" width="400">
     <nav>
         <ul>
             <br>
             <br>
-            <li><a href="/MenuView">Ver Menu</a></li>
-            
+            <a href="/Sumar">Total Pedido</a>
+            <a href="/QuitarElementoPedido ">Quitar Elemento </a>
             <li><a href="/">Regresar al inicio</a></li>
         </ul>
     </nav>

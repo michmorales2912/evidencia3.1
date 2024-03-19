@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quitar Elemento de Pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    
+        <h1>Quitar Elemento de Pedido</h1>
+    
+    <div class="quitar-elemento-container">
+        <form action="/QuitarElementoPedido" method="POST">
+            <label for="pedido">Selecciona un pedido:</label>
+            <select name="pedido" id="pedido">
+                {% for index in range(pedidos|length) %}
+                    <option value="{{ index }}">{{ pedidos[index] }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Quitar Último Elemento">
+        </form>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/Cajas">Regresar</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

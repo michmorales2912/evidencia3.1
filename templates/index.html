@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzería</title>
+    <title> </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="/static/js/script.js"></script>
 </head>
 <body>
-
-<h1>Bienvenido a la Pizzería</h1>
-
-
-<button onclick="window.location='{{url_for('caja')}}'" style="cursor: pointer;">Caja</button>
-<button onclick="window.location='{{url_for('meseros')}}'" style="cursor: pointer;">Meseros</button>
-<button onclick="window.location='{{url_for('cocina')}}'" style="cursor: pointer;">Cocina</button>
-<button onclick="window.location='{{url_for('mostrar_menu')}}'" style="cursor: pointer;">Menú</button>
-<img src="{{ url_for('static', filename='img/pizza.webp') }}" alt="Menu" width="400">
-
+    
+        <h1>Bienvenido al Sistema de Pedidos</h1>
+        
+    <nav>
+        <ul>
+            <br>
+            <br>
+            <a href="/Cajas">Caja</a>
+            <a href="/Meseros">Meseros</a>
+            <a href="/Cocinas">Cocina</a>
+            <a href="/Menu">Menu</a>
+            <br>
+        </ul>
+    </nav>
+    <br>
+    <img src="{{ url_for('static', filename='img/pizza.webp') }}" alt="Menu" width="400">
 </body>
 </html>

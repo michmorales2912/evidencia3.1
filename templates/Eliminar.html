@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>Eliminar Pedido</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Menu</h1>
-    </header>
+  
+        <h1>Eliminar Pedido</h1>
+    
+    <div class="mensaje-container">
+        <p>{{ mensaje }}</p>
+    </div>
     <nav>
         <ul>
-            <br>
-            <br>
-            <li><a href="/MenuView">Ver Menu</a></li>
-            
-            <li><a href="/">Regresar al inicio</a></li>
+            <li><a href="/Cocinas">Regresar</a></li>
         </ul>
     </nav>
-    <br>
-    <br>
 </body>
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+   
+    <h1>Agregar Pedido</h1>
+ 
+    <div class="pedido-container">
+        <form action="/AgregarPedido" method="POST">
+            <label for="item_numbers">Seleccione los ítems del menú:</label><br>
+            {% for key, value in menu_items.items() %}
+                <div>
+                    <label>
+                        <input type="checkbox" name="item_numbers[]" value="{{ key }}">
+                        {{ value[0] }} - ${{ value[1] }}
+                    </label>
+                    <input type="number" name="item_quantities[]" value="1" min="1">
+                </div>
+            {% endfor %}
+            <input type="submit" value="Agregar Pedido">
+        </form>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/Meseros">Regresar</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

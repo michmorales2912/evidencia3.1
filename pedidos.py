@@ -1,48 +1,51 @@
 from collections import deque
-
-class SistemaPedidos:
-    def __init__(self):
-        self.ordenes = deque(maxlen=6)  
-
-    def verificar_estructura_vacia(self):
-        return not bool(self.ordenes)
-
-    def añadir(self, numero_orden, elementos):
-        if len(self.ordenes) < 6:
-            self.ordenes.append({'numero_orden': numero_orden, 'elementos': elementos})
-            print(f"La orden {numero_orden} fue registrada con éxito.")
+from Menu import Menu  
+class Pedidos:
+    def __init__(self, menu):
+        self.ordenes = []  
+        self.menu = menu  
+    
+    def añadir(self, item_num, quantity):
+        item_info = self.menu.items.get(item_num)
+        if item_info:
+            item_name, item_price = item_info
+            total_price = item_price * quantity  
+            self.ordenes[-1].append((item_name, total_price))
+            print(f"{quantity} {item_name} fue(ron) agregado(s) a la orden actual.")
         else:
-            print("No se pueden aceptar más de 6 órdenes al mismo tiempo.")
+            print("El número de ítem proporcionado no existe en el menú.")
 
+    def crear_nueva_orden(self):
+        self.ordenes.append(deque())
+        print("Se ha creado una nueva orden.")
+    
     def consultar(self):
-        if self.ordenes:
-            return self.ordenes[-1]
+        return list(self.ordenes)
+    
+    def eliminar_orden(self, indice):
+        if 0 <= indice < len(self.ordenes):
+            del self.ordenes[indice]
+            print(f"Se ha eliminado la orden número {indice + 1}.")
         else:
-            return None
-
-    def eliminar_orden(self):
-        if self.ordenes:
-            orden_eliminada = self.ordenes.popleft()
-            print(f"Se ha eliminado la orden {orden_eliminada['numero_orden']}.")
+            print("El número de orden proporcionado no existe.")
+    
+    def sumar(self, indice):
+        if 0 <= indice < len(self.ordenes):
+            print("Imprimiendo ticket de la orden:")
+            for item in self.ordenes[indice]:
+                print(item)
         else:
-            print("No hay órdenes para eliminar.")
+            print("El número de orden proporcionado no existe.")
 
-    def sumar(self):
-        if self.ordenes:
-            ultima_orden = self.ordenes[-1]
-            print(f"Imprimiendo ticket para la orden {ultima_orden['numero_orden']}.")
-        else:
-            print("No hay órdenes para imprimir ticket.")
-
-    def quitar_elemento(self, elemento):
-        if self.ordenes:
-            ultima_orden = self.ordenes[-1]
-            if elemento in ultima_orden['elementos']:
-                ultima_orden['elementos'].remove(elemento)
-                print(f"Se ha quitado el elemento {elemento} de la orden {ultima_orden['numero_orden']}.")
+    def quitar_elemento(self, indice):
+        if 0 <= indice < len(self.ordenes):
+            if self.ordenes[indice]:
+                self.ordenes[indice].pop()
+                print("Último elemento de la orden eliminado.")
             else:
-                print(f"El elemento {elemento} no está en la orden.")
+                print("La orden está vacía.")
         else:
-            print("No hay órdenes para quitar elementos.")
+            print("El número de orden proporcionado no existe.")
 
-
+menu = Menu()
+pedidos = Pedidos(menu)
